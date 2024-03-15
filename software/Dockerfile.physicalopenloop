@@ -1,0 +1,29 @@
+# Use python file
+FROM python
+RUN pip install wheel
+
+# Copy files...
+WORKDIR /app
+COPY ./docker.startup.conf ./startup.conf
+COPY ./logging.conf ./logging.conf
+COPY ./requirements.txt ./requirements.txt
+COPY ./startup/utils/ ./startup/utils/
+
+# Install requirements
+RUN pip install -r ./requirements.txt
+
+# Use environment-variables for config.
+# The values below are DEFAULT VALUES and can be OVERRIDDEN
+ENV RABBITMQ_SERVER_NAME "rabbitmq-server"
+ENV INFLUXDB_SERVER_NAME "influxdb-server"
+
+# FROM registry.gitlab.au.dk/au605331/incubator-base-image
+COPY ./startup/start_controller_physical_open_loop.py ./startup/start_controller_physical_open_loop.py
+
+# Copy files here
+COPY ./incubator/ ./incubator/
+COPY ./digital_twin/ ./digital_twin/
+COPY ./docker.startup.conf ./startup.conf
+
+ENTRYPOINT [ "python", "-m" ]
+CMD ["startup.start_controller_physical_open_loop"]

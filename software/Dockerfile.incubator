@@ -1,0 +1,32 @@
+# Example Dockerfile.calibrator
+# FROM my-base-image:latest
+# Use python file
+FROM python
+RUN pip install wheel
+
+# Copy files...
+WORKDIR /app
+COPY ./docker.startup.conf ./startup.conf
+COPY ./logging.conf ./logging.conf
+COPY ./requirements.txt ./requirements.txt
+COPY ./startup/utils/ ./startup/utils/
+
+# Install requirements
+RUN pip install -r ./requirements.txt
+
+# Use environment-variables for config.
+# The values below are DEFAULT VALUES and can be OVERRIDDEN
+ENV RABBITMQ_SERVER_NAME "rabbitmq-server"
+ENV INFLUXDB_SERVER_NAME "influxdb-server"
+
+# FROM registry.gitlab.au.dk/au605331/incubator-base-image
+COPY ./startup/start_incubator_realtime_mockup.py ./startup/start_incubator_realtime_mockup.py
+
+# Here, at this point, copy the files needed for the "incubator", one file at a time
+COPY ./incubator/ ./incubator/
+COPY ./mock_plant/ ./mock_plant/
+
+# Here we start the "start_incubator_realtime_mockup"
+# We will run it in the foreground. As it is inside a container, this is fine.
+ENTRYPOINT [ "python", "-m" ]
+CMD ["startup.start_incubator_realtime_mockup"]

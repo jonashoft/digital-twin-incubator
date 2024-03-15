@@ -1,0 +1,235 @@
+version: '3.0'
+
+volumes:
+  InfluxDBData:
+    driver: local 
+
+services:
+  rabbitmq:
+    platform: linux/arm64/v8
+    container_name: rabbitmq-server
+    build: ./incubator/communication/installation/.
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 1883:1883
+    networks:
+      incubatornet:
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  influxdb-server:
+    platform: linux/arm64/v8
+    container_name: influxdb-server
+    build : ./digital_twin/data_access/influxdbserver/.
+    restart: always
+    ports:
+      - 8086:8086
+      - 8088:8088
+    volumes:
+      - ./digital_twin/data_access/influxdbserver/influxdb:/var/lib/influxdb/
+    healthcheck:
+      test: ["CMD", "influx", "ping", "-host", "localhost", "-port", "8086"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    networks:
+      incubatornet:
+
+
+  incubator:
+    platform: linux/arm64/v8
+    container_name: incubator
+    build:
+        context: .
+        dockerfile: Dockerfile.incubator
+    networks:
+      incubatornet:
+    ports:
+      - "1884"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+  
+  lowleveldriver:
+    platform: linux/arm64/v8
+    container_name: low-level-driver
+    build:
+        context: .
+        dockerfile: Dockerfile.lowleveldriver
+    networks:
+      incubatornet:
+    ports:
+      - "1885"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  influxdatarecorder:
+    platform: linux/arm64/v8
+    container_name: influx-data-recorder
+    build:
+        context: .
+        dockerfile: Dockerfile.influxdatarecorder
+    networks:
+      incubatornet:
+    ports:
+      - "1886"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+
+  plantkalmanfilter:
+    platform: linux/arm64/v8
+    container_name: plant-kalman-filter
+    build:
+        context: .
+        dockerfile: Dockerfile.plantkalmanfilter
+    networks:
+      incubatornet:
+    ports:
+      - "1887"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
+  plantsimulator:
+    platform: linux/arm64/v8
+    container_name: plant-simulator
+    build:
+        context: .
+        dockerfile: Dockerfile.plantsimulator
+    networks:
+      incubatornet:
+    ports:
+      - "1888"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+  
+  simulator:
+    platform: linux/arm64/v8
+    container_name: simulator
+    build:
+        context: .
+        dockerfile: Dockerfile.simulator
+    networks:
+      incubatornet:
+    ports:
+      - "1889"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+
+  calibrator:
+    platform: linux/arm64/v8
+    container_name: calibrator
+    build:
+        context: .
+        dockerfile: Dockerfile.calibrator
+    networks:
+      incubatornet:
+    ports:
+      - "1890"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+
+  # controllerphysicalopenloop:
+  #   platform: linux/arm64/v8
+  #   container_name: controller-physical-open-loop
+  #   build:
+  #       context: .
+  #       dockerfile: Dockerfile.physicalopenloop
+  #   networks:
+  #     incubatornet:
+    # ports:
+    #   - "1891"
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     influxdb-server:
+  #       condition: service_started
+
+  controllerphysical:
+    platform: linux/arm64/v8
+    container_name: controller-physical
+    build:
+        context: .
+        dockerfile: Dockerfile.physical
+    networks:
+      incubatornet:
+    ports:
+      - "1892"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+  
+  adaptation:
+    platform: linux/arm64/v8
+    container_name: adaptation
+    build:
+        context: .
+        dockerfile: Dockerfile.selfadaptationmanager
+    networks:
+      incubatornet:
+    ports:
+      - "1893"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+
+  supervisor:
+    platform: linux/arm64/v8
+    container_name: supervisor
+    build:
+        context: .
+        dockerfile: Dockerfile.supervisor
+    networks:
+      incubatornet:
+    ports:
+      - "1894"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+  
+  energysaver:
+    platform: linux/arm64/v8
+    container_name: energysaver
+    build:
+        context: .
+        dockerfile: Dockerfile.energysaver
+    networks:
+      incubatornet:
+    ports:
+      - "1895"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      influxdb-server:
+        condition: service_started
+
+networks:
+  incubatornet:
+    external: false
+    name: incubatornet

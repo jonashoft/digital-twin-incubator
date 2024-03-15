@@ -1,0 +1,30 @@
+# FROM my-base-image:latest
+# Use python file
+FROM python
+RUN pip install wheel
+
+# Copy files...
+WORKDIR /app
+COPY ./docker.startup.conf ./startup.conf
+COPY ./logging.conf ./logging.conf
+COPY ./requirements.txt ./requirements.txt
+COPY ./startup/utils/ ./startup/utils/
+
+# Install requirements
+RUN pip install -r ./requirements.txt
+
+# Use environment-variables for config.
+# The values below are DEFAULT VALUES and can be OVERRIDDEN
+ENV RABBITMQ_SERVER_NAME "rabbitmq-server"
+ENV INFLUXDB_SERVER_NAME "influxdb-server"
+
+# FROM registry.gitlab.au.dk/au605331/incubator-base-image
+COPY ./startup/start_plant_kalmanfilter.py ./startup/start_plant_kalmanfilter.py
+
+# Here, at this point, copy the files needed for the "incubator", one file at a time
+# Or "cheat":
+COPY ./incubator/ ./incubator/
+COPY ./digital_twin/ ./digital_twin/
+
+ENTRYPOINT [ "python", "-m" ]
+CMD ["startup.start_plant_kalmanfilter"]
