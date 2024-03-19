@@ -1,4 +1,4 @@
-INFLUXDB_URL = "http://localhost:8086"
-INFLUXDB_TOKEN = "-g7q1xIvZqY8BA82zC7uMmJS1zeTj61SQjDCY40DkY6IpPBpvna2YoQPdSeENiekgVLMd91xA95smSkhhbtO7Q=="
+INFLUXDB_URL = "http://influxdb-server:8086"
+INFLUXDB_TOKEN = "zhDCikf5-uX6cMYRb61kYYhLbqqIA71-LeFEmLvTTJTS6cyQaM3hYnxbqpPUDI8O6b2DbbDZIhQ8sPAHGtD8vg=="
 INFLUXDB_ORG = "incubator"
 INFLUXDB_BUCKET = "incubator"

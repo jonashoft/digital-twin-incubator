@@ -31,7 +31,7 @@ services:
       - 8086:8086
       - 8088:8088
     volumes:
-      - ./digital_twin/data_access/influxdbserver/influxdb:/var/lib/influxdb/
+      - InfluxDBData:/var/lib/influxdb/
     healthcheck:
       test: ["CMD", "influx", "ping", "-host", "localhost", "-port", "8086"]
       interval: 30s
@@ -197,21 +197,21 @@ services:
       influxdb-server:
         condition: service_started
 
-  supervisor:
-    platform: linux/arm64/v8
-    container_name: supervisor
-    build:
-        context: .
-        dockerfile: Dockerfile.supervisor
-    networks:
-      incubatornet:
-    ports:
-      - "1894"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      influxdb-server:
-        condition: service_started
+  # supervisor:
+  #   platform: linux/arm64/v8
+  #   container_name: supervisor
+  #   build:
+  #       context: .
+  #       dockerfile: Dockerfile.supervisor
+  #   networks:
+  #     incubatornet:
+  #   ports:
+  #     - "1894"
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     influxdb-server:
+  #       condition: service_started
   
   energysaver:
     platform: linux/arm64/v8
