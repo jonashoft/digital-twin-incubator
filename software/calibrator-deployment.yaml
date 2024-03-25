@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yaml
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: calibrator
+  name: calibrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: calibrator
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f compose.yaml
+        kompose.version: 1.32.0 (HEAD)
+      labels:
+        io.kompose.network/incubatornet: "true"
+        io.kompose.service: calibrator
+    spec:
+      containers:
+        - image: localhost:5050/incubator-calibrator:latest
+          name: calibrator
+          ports:
+            - containerPort: 1890
+              protocol: TCP
+      restartPolicy: Always

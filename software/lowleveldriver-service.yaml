@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yaml
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: lowleveldriver
+  name: lowleveldriver
+spec:
+  ports:
+    - name: "1885"
+      port: 1885
+      targetPort: 1885
+  selector:
+    io.kompose.service: lowleveldriver

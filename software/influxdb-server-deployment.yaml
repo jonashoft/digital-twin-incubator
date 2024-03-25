@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f compose.yaml
+    kompose.version: 1.32.0 (HEAD)
+  labels:
+    io.kompose.service: influxdb-server
+  name: influxdb-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: influxdb-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f compose.yaml
+        kompose.version: 1.32.0 (HEAD)
+      labels:
+        io.kompose.network/incubatornet: "true"
+        io.kompose.service: influxdb-server
+    spec:
+      containers:
+        - image: localhost:5050/incubator-influxdb-server:latest
+          livenessProbe:
+            exec:
+              command:
+                - influx
+                - ping
+                - -host
+                - localhost
+                - -port
+                - "8086"
+            failureThreshold: 5
+            periodSeconds: 30
+            timeoutSeconds: 30
+          name: influxdb-server
+          ports:
+            - containerPort: 8086
+              hostPort: 8086
+              protocol: TCP
+            - containerPort: 8088
+              hostPort: 8088
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/influxdb
+              name: influxdbdata
+      restartPolicy: Always
+      volumes:
+        - name: influxdbdata
+          persistentVolumeClaim:
+            claimName: influxdbdata

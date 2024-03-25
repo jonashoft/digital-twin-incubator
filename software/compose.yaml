@@ -6,7 +6,7 @@ volumes:
 
 services:
   rabbitmq:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-rabbitmq:latest
     container_name: rabbitmq-server
     build: ./incubator/communication/installation/.
     restart: always
@@ -23,9 +23,9 @@ services:
       retries: 5
 
   influxdb-server:
-    platform: linux/arm64/v8
     container_name: influxdb-server
     build : ./digital_twin/data_access/influxdbserver/.
+    image: localhost:5050/incubator-influxdb-server:latest
     restart: always
     ports:
       - 8086:8086
@@ -42,8 +42,8 @@ services:
 
 
   incubator:
-    platform: linux/arm64/v8
     container_name: incubator
+    image: localhost:5050/incubator:latest
     build:
         context: .
         dockerfile: Dockerfile.incubator
@@ -58,8 +58,8 @@ services:
         condition: service_started
   
   lowleveldriver:
-    platform: linux/arm64/v8
     container_name: low-level-driver
+    image: localhost:5050/incubator-low-level-driver:latest
     build:
         context: .
         dockerfile: Dockerfile.lowleveldriver
@@ -72,7 +72,7 @@ services:
         condition: service_healthy
 
   influxdatarecorder:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-influx-data-recorder:latest
     container_name: influx-data-recorder
     build:
         context: .
@@ -88,7 +88,7 @@ services:
         condition: service_started
 
   plantkalmanfilter:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-plant-kalman-filter:latest
     container_name: plant-kalman-filter
     build:
         context: .
@@ -102,7 +102,7 @@ services:
         condition: service_healthy
   
   plantsimulator:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-plant-simulator:latest
     container_name: plant-simulator
     build:
         context: .
@@ -118,7 +118,7 @@ services:
         condition: service_started
   
   simulator:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-simulator:latest
     container_name: simulator
     build:
         context: .
@@ -134,7 +134,7 @@ services:
         condition: service_started
 
   calibrator:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-calibrator:latest
     container_name: calibrator
     build:
         context: .
@@ -166,7 +166,7 @@ services:
   #       condition: service_started
 
   controllerphysical:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-controller-physical:latest
     container_name: controller-physical
     build:
         context: .
@@ -182,7 +182,7 @@ services:
         condition: service_started
   
   adaptation:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-adaptation:latest
     container_name: adaptation
     build:
         context: .
@@ -214,7 +214,7 @@ services:
   #       condition: service_started
   
   energysaver:
-    platform: linux/arm64/v8
+    image: localhost:5050/incubator-energy-saver:latest
     container_name: energysaver
     build:
         context: .
