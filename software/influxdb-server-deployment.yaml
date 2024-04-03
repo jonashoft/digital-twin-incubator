@@ -25,18 +25,6 @@ spec:
     spec:
       containers:
         - image: localhost:5050/incubator-influxdb-server:latest
-          livenessProbe:
-            exec:
-              command:
-                - influx
-                - ping
-                - -host
-                - localhost
-                - -port
-                - "8086"
-            failureThreshold: 5
-            periodSeconds: 30
-            timeoutSeconds: 30
           name: influxdb-server
           ports:
             - containerPort: 8086
