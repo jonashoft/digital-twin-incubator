@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: calibrator
+  name: calibrator
+spec:
+  ports:
+    - name: "1890"
+      port: 1890
+      targetPort: 1890
+  selector:
+    io.kompose.service: calibrator

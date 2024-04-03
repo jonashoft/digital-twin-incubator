@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: plantkalmanfilter
+  name: plantkalmanfilter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: plantkalmanfilter
+  template:
+    metadata:
+      labels:
+        io.kompose.network/incubatornet: "true"
+        io.kompose.service: plantkalmanfilter
+    spec:
+      containers:
+        - image: localhost:5050/incubator-plant-kalman-filter:latest
+          name: plant-kalman-filter
+          ports:
+            - containerPort: 1887
+              protocol: TCP
+      restartPolicy: Always
