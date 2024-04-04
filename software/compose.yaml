@@ -6,7 +6,7 @@ volumes:
 
 services:
   rabbitmq:
-    image: localhost:5050/incubator-rabbitmq:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/rabbitmq:latest
     container_name: rabbitmq-server
     build: ./incubator/communication/installation/.
     restart: always
@@ -25,7 +25,7 @@ services:
   influxdb-server:
     container_name: influxdb-server
     build : ./digital_twin/data_access/influxdbserver/.
-    image: localhost:5050/incubator-influxdb-server:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/influxdb-server:latest
     restart: always
     ports:
       - 8086:8086
@@ -43,7 +43,7 @@ services:
 
   incubator:
     container_name: incubator
-    image: localhost:5050/incubator:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/incubator:latest
     build:
         context: .
         dockerfile: Dockerfile.incubator
@@ -59,7 +59,7 @@ services:
   
   lowleveldriver:
     container_name: low-level-driver
-    image: localhost:5050/incubator-low-level-driver:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/low-level-driver:latest
     build:
         context: .
         dockerfile: Dockerfile.lowleveldriver
@@ -72,7 +72,7 @@ services:
         condition: service_healthy
 
   influxdatarecorder:
-    image: localhost:5050/incubator-influx-data-recorder:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/influx-data-recorder:latest
     container_name: influx-data-recorder
     build:
         context: .
@@ -88,7 +88,7 @@ services:
         condition: service_started
 
   plantkalmanfilter:
-    image: localhost:5050/incubator-plant-kalman-filter:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/plant-kalman-filter:latest
     container_name: plant-kalman-filter
     build:
         context: .
@@ -102,7 +102,7 @@ services:
         condition: service_healthy
   
   plantsimulator:
-    image: localhost:5050/incubator-plant-simulator:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/plant-simulator:latest
     container_name: plant-simulator
     build:
         context: .
@@ -118,7 +118,7 @@ services:
         condition: service_started
   
   simulator:
-    image: localhost:5050/incubator-simulator:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/simulator:latest
     container_name: simulator
     build:
         context: .
@@ -134,7 +134,7 @@ services:
         condition: service_started
 
   calibrator:
-    image: localhost:5050/incubator-calibrator:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/calibrator:latest
     container_name: calibrator
     build:
         context: .
@@ -150,6 +150,7 @@ services:
         condition: service_started
 
   # controllerphysicalopenloop:
+  #   image: registry.gitlab.au.dk/au605331/digital-twin-incubator/controller-physical-open-loop:latest
   #   platform: linux/arm64/v8
   #   container_name: controller-physical-open-loop
   #   build:
@@ -166,7 +167,7 @@ services:
   #       condition: service_started
 
   controllerphysical:
-    image: localhost:5050/incubator-controller-physical:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/controller-physical:latest
     container_name: controller-physical
     build:
         context: .
@@ -182,7 +183,7 @@ services:
         condition: service_started
   
   adaptation:
-    image: localhost:5050/incubator-adaptation:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/adaptation:latest
     container_name: adaptation
     build:
         context: .
@@ -214,7 +215,7 @@ services:
   #       condition: service_started
   
   energysaver:
-    image: localhost:5050/incubator-energy-saver:latest
+    image: registry.gitlab.au.dk/au605331/digital-twin-incubator/energy-saver:latest
     container_name: energysaver
     build:
         context: .

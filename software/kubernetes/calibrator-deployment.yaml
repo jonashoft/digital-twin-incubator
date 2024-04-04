@@ -16,7 +16,7 @@ spec:
         io.kompose.service: calibrator
     spec:
       containers:
-        - image: localhost:5050/incubator-calibrator:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/calibrator:latest
           name: calibrator
           ports:
             - containerPort: 1890

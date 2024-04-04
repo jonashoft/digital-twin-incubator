@@ -16,7 +16,7 @@ spec:
         io.kompose.service: lowleveldriver
     spec:
       containers:
-        - image: localhost:5050/incubator-low-level-driver:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/low-level-driver:latest
           name: low-level-driver
           ports:
             - containerPort: 1885

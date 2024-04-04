@@ -16,7 +16,7 @@ spec:
         io.kompose.service: plantkalmanfilter
     spec:
       containers:
-        - image: localhost:5050/incubator-plant-kalman-filter:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/plant-kalman-filter:latest
           name: plant-kalman-filter
           ports:
             - containerPort: 1887

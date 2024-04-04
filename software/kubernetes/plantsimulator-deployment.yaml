@@ -16,7 +16,7 @@ spec:
         io.kompose.service: plantsimulator
     spec:
       containers:
-        - image: localhost:5050/incubator-plant-simulator:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/plant-simulator:latest
           name: plant-simulator
           ports:
             - containerPort: 1888

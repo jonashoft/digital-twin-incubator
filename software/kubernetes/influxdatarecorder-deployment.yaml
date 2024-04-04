@@ -16,7 +16,7 @@ spec:
         io.kompose.service: influxdatarecorder
     spec:
       containers:
-        - image: localhost:5050/incubator-influx-data-recorder:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/influx-data-recorder:latest
           name: influx-data-recorder
           ports:
             - containerPort: 1886

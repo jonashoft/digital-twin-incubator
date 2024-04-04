@@ -16,7 +16,7 @@ spec:
         io.kompose.service: rabbitmq
     spec:
       containers:
-        - image: localhost:5050/incubator-rabbitmq:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/rabbitmq:latest
           livenessProbe:
             exec:
               command:

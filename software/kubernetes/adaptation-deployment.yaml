@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: adaptation
-          image: localhost:5050/incubator-adaptation:latest
+          image: $(DOCKER_REGISTRY)/digital-twin-incubator/adaptation:latest
           ports:
             - containerPort: 1893

@@ -16,7 +16,7 @@ spec:
         io.kompose.service: controllerphysical
     spec:
       containers:
-        - image: localhost:5050/incubator-controller-physical:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/controller-physical:latest
           name: controller-physical
           ports:
             - containerPort: 1892

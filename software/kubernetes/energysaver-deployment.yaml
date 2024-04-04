@@ -16,7 +16,7 @@ spec:
         io.kompose.service: energysaver
     spec:
       containers:
-        - image: localhost:5050/incubator-energy-saver:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/energy-saver:latest
           name: energysaver
           ports:
             - containerPort: 1895

@@ -16,7 +16,7 @@ spec:
         io.kompose.service: simulator
     spec:
       containers:
-        - image: localhost:5050/incubator-simulator:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/simulator:latest
           name: simulator
           ports:
             - containerPort: 1889

@@ -18,7 +18,7 @@ spec:
         io.kompose.service: influxdb-server
     spec:
       containers:
-        - image: localhost:5050/incubator-influxdb-server:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/influxdb-server:latest
           name: influxdb-server
           ports:
             - containerPort: 8086

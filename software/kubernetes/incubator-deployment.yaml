@@ -16,7 +16,7 @@ spec:
         io.kompose.service: incubator
     spec:
       containers:
-        - image: localhost:5050/incubator:latest
+        - image: registry.gitlab.au.dk/au605331/digital-twin-incubator/incubator:latest
           name: incubator
           ports:
             - containerPort: 1884
